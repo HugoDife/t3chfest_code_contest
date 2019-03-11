@@ -18,5 +18,7 @@ class Problem1Test extends FunSuite with Matchers {
     Problem1.solution(1000000000, 1) should equal(1000000000)
     Problem1.solution(10, 9) should equal(10)
     Problem1.solution(1000000000, 999999999) should equal(1000000000)
+    Problem1.solution(10, 7) should equal(10)
+    Problem1.solution(11, 4) should equal(11)
   }
 }

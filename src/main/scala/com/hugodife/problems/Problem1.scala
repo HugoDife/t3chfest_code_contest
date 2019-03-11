@@ -2,20 +2,32 @@ package com.hugodife.problems
 
 object Problem1 {
   def solution(n: Int, m: Int): Int = {
-    val realM = if(n >= m) m else m % n
+    val realM = simplifyM(n, m)
 
-    def recursive(prevInits: Int): Int = {
-      val rest = (n - prevInits) % realM
+    val mod = n % realM
 
-      if(rest ==0)
-        1
-      else
-        recursive(realM - rest) + 1
-    }
+    val div: Int = n / realM
 
-    if(n % realM == 0)
-      return n / realM
 
-    1 + n / realM * recursive(0)
+    if(mod == 0) return div
+
+
+    var lastInit = 0
+    var total = 0
+    var rest = 0
+    do {
+      val count = if(lastInit < mod) 1 else 0
+      rest = (n - lastInit) % realM
+      lastInit = realM - rest
+      total += (div + count)
+    } while(rest != 0)
+
+    total
+  }
+
+  def simplifyM(n: Int, m: Int): Int = {
+    if(m > n) m % n
+    else if (m < n && m > (n / 2)) n - m
+    else m
   }
 }
