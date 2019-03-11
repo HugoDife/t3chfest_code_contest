@@ -2,12 +2,10 @@ package com.hugodife.problems
 
 object Problem3 {
   def solution(a: Array[Int]): Int = {
-    var mult: Long = 1
-    var total: Long = 0
+    var total = 0
     for(i <- a) {
-      total += i * mult
-      mult = mult * 8
+      total += i.toBinaryString.count(_ == '1')
     }
-    total.toBinaryString.count(_ == '1')
+    total
   }
 }
