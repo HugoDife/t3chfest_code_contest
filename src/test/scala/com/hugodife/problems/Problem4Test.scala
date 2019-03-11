@@ -18,6 +18,6 @@ class Problem4Test extends FunSuite with Matchers {
   test("More complex") {
     Problem4.solution(Array(1, 2, 4, 5, 7, 29, 30)) should equal(11)
     Problem4.solution(Array(1, 4, 5, 7, 8, 10, 29, 30)) should equal(13)
-
+    Problem4.solution(Array(1, 3, 4, 5, 7, 8, 9, 11)) should equal(11)
   }
 }
