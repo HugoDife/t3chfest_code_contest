@@ -11,12 +11,12 @@ class Problem1Test extends FunSuite with Matchers {
     Problem1.solution(10, 4) should equal(5)
     Problem1.solution(10, 1) should equal(10)
     Problem1.solution(15, 5) should equal(3)
+    Problem1.solution(1000000000, 5) should equal(200000000)
+    Problem1.solution(1000000000, 1) should equal(1000000000)
+    Problem1.solution(15, 15) should equal(1)
+    Problem1.solution(15, 16) should equal(15)
+    Problem1.solution(1000000000, 1) should equal(1000000000)
+    Problem1.solution(10, 9) should equal(10)
+    Problem1.solution(1000000000, 999999999) should equal(1000000000)
   }
-
-//  test("Test multiple send push formatting") {
-//    var multipleNoImageAppJson = "{" + noImageAppJson("1") + "}"
-//    for (i <- 2 to 5) multipleNoImageAppJson = multipleNoImageAppJson + "," + "{" + noImageAppJson(i.toString) + "}"
-//    multipleNoImageAppJson = multipleNoImageAppJson + "," + "{" + noImageNoDataAppJson + "}"
-//    IndigitallRequestGenerator.generate("", "", groupedPush) should equal(wrapMultiple("", "", multipleNoImageAppJson))
-//  }
 }
