@@ -8,6 +8,19 @@ import Problem5.Node
 @RunWith(classOf[JUnitRunner])
 class Problem5Test extends FunSuite with Matchers {
 
+  test("Checking whole algorithm") {
+    val a = Array(0, 1, 2)
+    val b = Array(1, 2, 3)
+
+    Problem5.solution(a, b, 0) should equal(3)
+    Problem5.solution(a, b, 1) should equal(1)
+
+    val exampleA = Array(5, 1, 0, 2, 7, 0, 6, 6, 1)
+    val exampleB = Array(1, 0, 7, 4, 2, 6, 8, 3, 9)
+    Problem5.solution(exampleA, exampleB, 2) should equal(2)
+
+  }
+
   test("Checking group max length") {
     val nodes = Map(1 -> Node(1, Array(2)), 2 -> Node(2, Array(1)))
     Problem5.computeMaxLength(nodes) should equal(1)

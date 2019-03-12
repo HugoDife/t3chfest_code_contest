@@ -8,24 +8,42 @@ object Problem5 {
 
 
   def solution(a: Array[Int], b: Array[Int], k: Int): Int = {
-    // write your code in Scala 2.12
-    return ???
+    val edges = a.zip(b)
+    val nodes = (a ++ b).distinct.map(nodeId => (nodeId, Node(nodeId, edges.map{case(first, second) => {
+      if(first == nodeId)
+        second
+      else if(second == nodeId)
+        first
+      else -1
+    }}.filter(_ != -1)))).toMap
+
+    maxPathLength(k, nodes)
   }
 
-  def maxPathLength(nodes: Map[Int, Node], k: Int): Int = {
+  def maxPathLength(k: Int, nodes: Map[Int, Node]): Int = {
     if(k == 0) computeMaxLength(nodes)
+    else if(nodes.size == 1) 0
     else {
-      nodes.keySet.map(nodeId => {
-        // Split in 2
-        // max(maxPathLength(nodesSplit1, k - 1), maxPathLength(nodesSplit2, k - 1))
-        nodeId
-      }).max
+      computeEdges(nodes).map(edge => {
+        val (subgraph1, subgraph2) = splitGraph(edge, nodes)
+        maxPathLength(k - 1, subgraph1) max maxPathLength(k - 1, subgraph2)
+      }).min
     }
+  }
+
+  def computeEdges(nodes: Map[Int, Node]): Array[(Int, Int)] = {
+    nodes.values.flatMap(node => node.connections.map(neighborNodeId => {
+      if(neighborNodeId > node.id)
+        (node.id, neighborNodeId)
+      else
+        (neighborNodeId, node.id)
+    })).toArray.distinct
   }
 
   def computeMaxLength(nodes: Map[Int, Node]): Int = {
     //Optimize computing only for edges
-    nodes.map(node => computeMaxLengthOfNode(node._2, nodes - node._1)).max
+    if(nodes.size == 1) 0
+    else nodes.filter(_._2.connections.length == 1).map(node => computeMaxLengthOfNode(node._2, nodes - node._1)).max
   }
 
   def computeMaxLengthOfNode(originNode: Node, nodes: Map[Int, Node]): Int = {
