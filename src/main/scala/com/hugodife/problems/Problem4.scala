@@ -42,13 +42,7 @@ object Problem4 {
   }
 
   def endIndexOf7DayGroup(days: Array[Int]): Int = {
-    var totalInterval = days(3) - days(0)
-
-    for(i <- 4 until days.length) {
-      if((days(i) - days.head) > 6)
-        return i - 1
-    }
-    days.length - 1
+    (4 until days.length).find(i => (days(i) - days.head) > 6).getOrElse(days.length) - 1
   }
 }
 
