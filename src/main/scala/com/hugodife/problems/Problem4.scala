@@ -12,11 +12,8 @@ object Problem4 {
 
   def solution(a: Array[Int]): Int = {
     if(a.length == 0) return 0
-    if(a.length == 1) return price1D
 
-    a.indices
-      .map(slice => computeValue(slice * price1D, a.drop(slice)))
-      .min
+    a.indices.map(slice => computeValue(slice * price1D, a.drop(slice))).min
   }
 
   def computeValue(acc: Int, days: Array[Int]): Int = {
