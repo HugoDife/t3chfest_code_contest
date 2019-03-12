@@ -12,7 +12,7 @@ object Problem4 {
 
   def solution(a: Array[Int]): Int = {
     if(a.length == 0) return 0
-    if(a.length == 1) return 2
+    if(a.length == 1) return price1D
     val intervals = a.sliding(2).map{ case Array(first, second) => second - first }.toArray
     (0 to intervals.length)
       .map(slice => computeValue(slice * price1D, intervals.drop(slice)))
@@ -20,10 +20,10 @@ object Problem4 {
   }
 
   def computeValue(acc: Int, intervals: Array[Int]): Int = {
-    if(intervals.length < min7GroupIntervalLength) return acc + intervals.length * 2
+    if(intervals.length < min7GroupIntervalLength) return acc + intervals.length * price1D
     if(acc >= price30D) return price30D
 
-    val groupIndex = first7DayGroupIndex(intervals).getOrElse(return acc + intervals.length * 2)
+    val groupIndex = first7DayGroupIndex(intervals).getOrElse(return acc + intervals.length * price1D)
     val groupEndIndex = groupIndex + endIndexOf7DayGroup(intervals.drop(groupIndex))
 
     (groupEndIndex to intervals.length)
@@ -35,12 +35,20 @@ object Problem4 {
   }
 
   def first7DayGroupIndex(intervals: Array[Int]): Option[Int] = {
-    //isGroup if min 3 intervals and max == 6
-    for(i <- 0 to (intervals.length - min7GroupIntervalLength)) {
-      if(intervals.slice(i, i + min7GroupIntervalLength).sum <= max7GroupIntervals)
-        return Some(i)
-    }
-    None
+    //Is a 7 day group if min 3 intervals and max value = 6
+    val groupAndIndex = intervals.sliding(3).zipWithIndex.find{case (arr, ind) => is7DayGroup(arr)}
+    val (group, index) = groupAndIndex.getOrElse(return None)
+    Some(index)
+
+//    for(i <- 0 to (intervals.length - min7GroupIntervalLength)) {
+//      if(intervals.slice(i, i + min7GroupIntervalLength).sum <= max7GroupIntervals)
+//        return Some(i)
+//    }
+//    None
+  }
+
+  private def is7DayGroup(interval: Array[Int]): Boolean = {
+    interval.length >= min7GroupIntervalLength && interval.sum <= max7GroupIntervals
   }
 
   def endIndexOf7DayGroup(intervals: Array[Int]): Int = {
