@@ -17,18 +17,18 @@ object Problem4 {
   }
 
   def computeValue(acc: Int, days: Array[Int]): Int = {
-      if(days.length < min7DayLength) return acc + days.length * price1D
-      if(acc >= price30D) return price30D
+    if(days.length < min7DayLength) return acc + days.length * price1D
+    if(acc >= price30D) return price30D
 
-      val groupIndex = first7DayGroupIndex(days).getOrElse(return acc + days.length * price1D)
-      val groupEndIndex = groupIndex + endIndexOf7DayGroup(days.drop(groupIndex))
+    val groupIndex = first7DayGroupIndex(days).getOrElse(return acc + days.length * price1D)
+    val groupEndIndex = groupIndex + endIndexOf7DayGroup(days.drop(groupIndex))
 
-      (groupEndIndex to days.length)
-        .map(slice => {
-          val priceBeforeGroup = groupIndex * price1D
-          val priceAfterGroup = (slice - groupEndIndex) * price1D
-          computeValue(acc + price7D + priceBeforeGroup + priceAfterGroup, days.drop(slice + 1))
-        }).min
+    (groupEndIndex to days.length)
+      .map(slice => {
+        val priceBeforeGroup = groupIndex * price1D
+        val priceAfterGroup = (slice - groupEndIndex) * price1D
+        computeValue(acc + price7D + priceBeforeGroup + priceAfterGroup, days.drop(slice + 1))
+      }).min
   }
 
   def first7DayGroupIndex(days: Array[Int]): Option[Int] = {
