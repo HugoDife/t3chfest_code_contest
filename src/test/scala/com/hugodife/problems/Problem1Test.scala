@@ -7,7 +7,7 @@ import org.scalatest.{FunSuite, Matchers}
 @RunWith(classOf[JUnitRunner])
 class Problem1Test extends FunSuite with Matchers {
 
-  test("Test no image push formatting") {
+  test("Checking all valid sets") {
     Problem1.solution(10, 4) should equal(5)
     Problem1.solution(10, 1) should equal(10)
     Problem1.solution(15, 5) should equal(3)
