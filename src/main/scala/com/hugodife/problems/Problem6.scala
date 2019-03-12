@@ -18,6 +18,7 @@ object Problem6 {
   }
 
   def solution(a: Array[Array[Boolean]]): Int = {
+    if(!a(a.length - 1)(a(0).length - 1)) return 0
     val matrixValues = a.zipWithIndex
       .flatMap{ case(row, indexR) =>
         row.zipWithIndex
