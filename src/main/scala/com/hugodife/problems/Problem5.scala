@@ -4,7 +4,7 @@ object Problem5 {
 
   val maxLength = 900
 
-  class Node(val id: Int, val connections: Array[Int])
+  case class Node(id: Int, connections: Array[Int])
 
 
   def solution(a: Array[Int], b: Array[Int], k: Int): Int = {
@@ -15,7 +15,11 @@ object Problem5 {
   def maxPathLength(nodes: Map[Int, Node], k: Int): Int = {
     if(k == 0) computeMaxLength(nodes)
     else {
-      return ???
+      nodes.keySet.map(nodeId => {
+        // Split in 2
+        // max(maxPathLength(nodesSplit1, k - 1), maxPathLength(nodesSplit2, k - 1))
+        nodeId
+      }).max
     }
   }
 
@@ -36,6 +40,31 @@ object Problem5 {
         .max
     }
     computeAccMaxLengthOfNode(0, originNode, nodes)
+  }
+
+  def splitGraph(edge: (Int, Int), graph: Map[Int, Node]): (Map[Int, Node], Map[Int, Node]) = {
+    val first = edge._1
+    val second = edge._2
+
+    val firstNodeConnections = graph(first).connections.filter(_ != second)
+    val secondNodeConnections = graph(second).connections.filter(_ != first)
+
+    val firstSubgraph = Map(first -> Node(first, firstNodeConnections))
+    val secondSubgraph = Map(second -> Node(second, secondNodeConnections))
+
+
+    def addMissingNodes(
+      subGraph: Map[Int, Node], missingNodes: Array[Int]
+    ): Map[Int, Node] = {
+
+      if(missingNodes.isEmpty) subGraph
+      else if(subGraph.contains(missingNodes.head)) addMissingNodes(subGraph, missingNodes.tail)
+      else {
+        val newMissingNodes = missingNodes ++ graph(missingNodes.head).connections
+        addMissingNodes(subGraph + (missingNodes.head -> graph(missingNodes.head)), newMissingNodes.distinct.tail)
+      }
+    }
+    (addMissingNodes(firstSubgraph, firstNodeConnections), addMissingNodes(secondSubgraph, secondNodeConnections))
   }
 }
 
